@@ -4,17 +4,59 @@ const EXTRA_LENGTH = 2;
 const BASIC_MAX = 36;
 const EXTRA_MAX = 13;
 
-const basicData = new Array(BASIC_LENGTH).fill(BASIC_LENGTH);
-const extraData = new Array(EXTRA_LENGTH).fill(EXTRA_LENGTH);
+const basicColor = 'color:white;';
+const extraColor = 'color:black;'
+const basicStyle = 'width: 24px;height: 24px;line-height: 24px;display: inline-block;font-weight: bold;background-size: 100%;border-radius: 50%;padding: 4px';
+const basicBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt.png) no-repeat center;';
+const extraBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt1.png) no-repeat center;';
+const basicColorString = `${basicBackground}${basicColor}${basicStyle}`;
+const extraColorString = `${extraBackground}${extraColor}${basicStyle}`;
 
-const basicLottery = basicData.map(() => {
-  return parseInt(Math.random() * 1000) % BASIC_MAX;
-});
+/**
+ * transform number to string type
+ * e.g. 1 => '01'
+ * @param {Number} lottery
+ * @returns
+ */
+const toLocaleLottery = (lottery) => lottery < 10 ? '0' + lottery.toLocaleString() : lottery.toLocaleString();
 
-const extraLottery = extraData.map(() => {
-  return parseInt(Math.random() * 1000) % EXTRA_MAX;
-});
+/**
+ * generate a lottery number list
+ * @param {Number} len total length
+ * @param {Number} max max lottery
+ * @returns
+ */
+const generateNumber = (len, max) => {
+  let count = len;
+  let arr = [];
 
-const myLottery = [...basicLottery, ...extraLottery];
+  while (count) {
+    const lottery = parseInt(Math.random() * 1000) % max;
+    if (!arr.includes(lottery)) {
+      arr.push(lottery);
+      count--;
+    }
+  }
 
-console.info(basicData, extraData, myLottery);
+  return arr.map(toLocaleLottery);
+}
+
+const generateBasicLottery = () => generateNumber(BASIC_LENGTH, BASIC_MAX);
+
+const generateExtraLottery = () => generateNumber(EXTRA_LENGTH, EXTRA_MAX);
+
+export const generateLottery = () => {
+  const myLottery = [...generateBasicLottery(), ...generateExtraLottery()];
+  return myLottery;
+}
+
+const printRainbowLottery = () => {
+  const myLottery = generateLottery();
+  myLottery.forEach((lotteryNumber, index) => {
+    const rainbowStyle = index < BASIC_LENGTH ? basicColorString : extraColorString;
+    setTimeout(console.log, EXTRA_LENGTH * index * 1000, '%c%s', rainbowStyle, lotteryNumber);
+  });
+  setTimeout(console.log, EXTRA_LENGTH * myLottery.length * 1000, '%c%s', 'color:#D40061', 'Congratulations ！！！');
+}
+
+export default printRainbowLottery;
