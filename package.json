@@ -1,6 +1,6 @@
 {
   "name": "generate-lottery",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "generating lottery that you can buy",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,11 @@
     "url": "git+https://github.com/kyriejoshua/generate-lottery.git"
   },
   "keywords": [
-    "lottery"
+    "lottery",
+    "javascript"
   ],
   "author": "kyriejoshua",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/kyriejoshua/generate-lottery/issues"
   },
