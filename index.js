@@ -4,13 +4,20 @@ const EXTRA_LENGTH = 2;
 const BASIC_MAX = 36;
 const EXTRA_MAX = 13;
 
-const basicColor = 'color:white;';
-const extraColor = 'color:black;'
-const basicStyle = 'width: 24px;height: 24px;line-height: 24px;display: inline-block;font-weight: bold;background-size: 100%;border-radius: 50%;padding: 4px';
-const basicBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt.png) no-repeat center;';
-const extraBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt1.png) no-repeat center;';
-const basicColorString = `${basicBackground}${basicColor}${basicStyle}`;
-const extraColorString = `${extraBackground}${extraColor}${basicStyle}`;
+const getStyle = () => {
+  const basicColor = 'color:white;';
+  const extraColor = 'color:black;';
+  const basicStyle = 'width: 24px;height: 24px;line-height: 24px;display: inline-block;font-weight: bold;background-size: 100%;border-radius: 50%;padding: 4px';
+  const basicBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt.png) no-repeat center;';
+  const extraBackground = 'background:url(https://static.sporttery.cn/res_1_0/tcw/images/ico-lt1.png) no-repeat center;';
+  const basicColorString = `${basicBackground}${basicColor}${basicStyle}`;
+  const extraColorString = `${extraBackground}${extraColor}${basicStyle}`;
+
+  return {
+    basicColorString,
+    extraColorString
+  }
+}
 
 /**
  * transform number to string type
@@ -51,12 +58,14 @@ export const generateLottery = () => {
 }
 
 const printRainbowLottery = () => {
+  const { basicColorString, extraColorString } = getStyle();
+  const consoleType = '%c%s';
   const myLottery = generateLottery();
   myLottery.forEach((lotteryNumber, index) => {
     const rainbowStyle = index < BASIC_LENGTH ? basicColorString : extraColorString;
-    setTimeout(console.log, EXTRA_LENGTH * index * 1000, '%c%s', rainbowStyle, lotteryNumber);
+    setTimeout(console.log, EXTRA_LENGTH * index * 1000, consoleType, rainbowStyle, lotteryNumber);
   });
-  setTimeout(console.log, EXTRA_LENGTH * myLottery.length * 1000, '%c%s', 'color:#D40061', 'Congratulations ！！！');
+  setTimeout(console.log, EXTRA_LENGTH * myLottery.length * 1000, consoleType, 'color:#D40061', 'Congratulations ！！！');
 }
 
 export default printRainbowLottery;
